@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAJESH Electrical and Plumbing</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --elec: #F5C842;
+    --elec-glow: #ffd84d22;
+    --plumb: #38BDF8;
+    --plumb-glow: #38bdf81a;
+    --dark: #0d0f14;
+    --card-bg: #13161e;
+    --card-border: #ffffff12;
+    --text: #f0f2f8;
+    --muted: #8a90a8;
+    --radius: 20px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Background texture ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, #f5c84212 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 85%, #38bdf810 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Grid dots ─── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, #ffffff08 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; }
+
+  /* ─── HERO ─── */
+  .hero {
+    text-align: center;
+    padding: 64px 24px 40px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid #ffffff18;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(8px);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 9vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 span.elec { color: var(--elec); }
+  .hero h1 span.plumb { color: var(--plumb); }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 400px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ─── Experience strip ─── */
+  .strip {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0 auto 56px;
+    max-width: 500px;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    background: #ffffff07;
+  }
+
+  .strip-item {
+    flex: 1;
+    padding: 16px 12px;
+    text-align: center;
+    border-right: 1px solid var(--card-border);
+  }
+  .strip-item:last-child { border-right: none; }
+
+  .strip-item .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
+  }
+  .strip-item .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .strip-item:nth-child(1) .num { color: var(--elec); }
+  .strip-item:nth-child(2) .num { color: #e2e8ff; }
+  .strip-item:nth-child(3) .num { color: var(--plumb); }
+
+  /* ─── CARDS ─── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 32px 28px 28px;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(.22,.61,.36,1), box-shadow 0.4s ease;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 2px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .card.elec::before { background: linear-gradient(90deg, transparent, var(--elec), transparent); }
+  .card.plumb::before { background: linear-gradient(90deg, transparent, var(--plumb), transparent); }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 120px;
+    border-radius: var(--radius) var(--radius) 0 0;
+    pointer-events: none;
+  }
+  .card.elec::after { background: var(--elec-glow); }
+  .card.plumb::after { background: var(--plumb-glow); }
+
+  .card:hover {
+    transform: perspective(800px) rotateX(3deg) rotateY(-2deg) translateY(-6px);
+    box-shadow: 0 24px 48px #00000050;
+  }
+
+  /* ─── Card header ─── */
+  .card-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .card.elec .card-icon { background: #f5c84218; border: 1px solid #f5c84228; }
+  .card.plumb .card-icon { background: #38bdf818; border: 1px solid #38bdf828; }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .card.elec .card-title { color: var(--elec); }
+  .card.plumb .card-title { color: var(--plumb); }
+
+  .card-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── Services list ─── */
+  .services {
+    list-style: none;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .services li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #c8cdd8;
+    font-weight: 300;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .card.elec .dot { background: var(--elec); }
+  .card.plumb .dot { background: var(--plumb); }
+
+  /* ─── Divider ─── */
+  .divider {
+    height: 1px;
+    background: var(--card-border);
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── Buttons ─── */
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative; z-index: 1;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+    letter-spacing: 0.2px;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-call {
+    background: #ffffff;
+    color: #0d0f14;
+  }
+  .btn-call:hover { opacity: 0.92; box-shadow: 0 6px 20px #ffffff20; }
+
+  .btn-wa {
+    background: #25D366;
+    color: #fff;
+  }
+  .btn-wa:hover { opacity: 0.92; box-shadow: 0 6px 20px #25d36630; }
+
+  .btn-share {
+    background: transparent;
+    border: 1px solid var(--card-border);
+    color: var(--text);
+  }
+  .btn-share:hover {
+    background: #ffffff0a;
+    border-color: #ffffff22;
+  }
+
+  .btn svg { flex-shrink: 0; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #00000080;
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; animation: slideUp 0.3s ease; }
+
+  @keyframes slideUp {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: #1a1d27;
+    border: 1px solid #ffffff18;
+    border-radius: 24px 24px 0 0;
+    padding: 32px 24px 40px;
+    width: 100%;
+    max-width: 520px;
+    animation: sheetUp 0.35s cubic-bezier(.22,.61,.36,1);
+  }
+
+  @keyframes sheetUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .modal-handle {
+    width: 40px; height: 4px;
+    background: #ffffff22;
+    border-radius: 4px;
+    margin: 0 auto 28px;
+  }
+
+  .modal h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .modal p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .modal textarea {
+    width: 100%;
+    background: #0d0f1488;
+    border: 1px solid #ffffff18;
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    resize: none;
+    height: 110px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 16px;
+  }
+  .modal textarea:focus { border-color: #ffffff40; }
+  .modal textarea::placeholder { color: var(--muted); }
+
+  .modal-loc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .loc-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .btn-send {
+    width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #0d0f14;
+    transition: transform 0.15s, opacity 0.15s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-send:active { transform: scale(0.97); }
+  .modal.elec .btn-send { background: var(--elec); }
+  .modal.plumb .btn-send { background: var(--plumb); }
+
+  .btn-cancel {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  /* ─── Footer ─── */
+  footer {
+    text-align: center;
+    padding: 0 20px 48px;
+    font-size: 12px;
+    color: #4a5068;
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 48px 20px 32px; }
+    .cards { padding: 0 16px 64px; }
+    .card { padding: 28px 22px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">⚡ Available 24 / 7 — Kozhikode & Nearby</div>
+    <h1>
+      RAJESH<br>
+      <span class="elec">Electrical</span><br>
+      &amp; <span class="plumb">Plumbing</span>
+    </h1>
+    <p>Trusted home services with 20+ years of hands-on experience. Fast, reliable &amp; affordable.</p>
+
+    <!-- Stats strip -->
+    <div class="strip">
+      <div class="strip-item">
+        <span class="num">20+</span>
+        <span class="lbl">Yrs Experience</span>
+      </div>
+      <div class="strip-item">
+        <span class="num">1500+</span>
+        <span class="lbl">Jobs Done</span>
+      </div>
+      <div class="strip-item">
+        <span class="num">24 / 7</span>
+        <span class="lbl">Emergency</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service cards -->
+  <div class="cards">
+
+    <!-- Electrician Card -->
+    <div class="card elec">
+      <div class="card-icon">⚡</div>
+      <div class="card-title">Electrician</div>
+      <div class="card-tagline">Licensed &amp; Certified — 20 Years in the Field</div>
+      <ul class="services">
+        <li><span class="dot"></span>Home &amp; office wiring / rewiring</li>
+        <li><span class="dot"></span>Switchboard &amp; MCB panel upgrades</li>
+        <li><span class="dot"></span>Fan, AC &amp; appliance installation</li>
+        <li><span class="dot"></span>Power outage &amp; fault diagnosis</li>
+        <li><span class="dot"></span>Solar &amp; inverter connections</li>
+        <li><span class="dot"></span>Emergency electrical repairs</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="btn-group">
+        <a class="btn btn-call" href="tel:+919645001700">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Now
+        </a>
+        <a class="btn btn-wa" href="https://wa.me/919645001700?text=Hi%2C%20I%20need%20an%20electrician." target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          WhatsApp
+        </a>
+        <button class="btn btn-share" onclick="openModal('elec')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Share Problem &amp; Location
+        </button>
+      </div>
+    </div>
+
+    <!-- Plumber Card -->
+    <div class="card plumb">
+      <div class="card-icon">🔧</div>
+      <div class="card-title">Plumber</div>
+      <div class="card-tagline">Expert Pipework &amp; Sanitation — Since 2004</div>
+      <ul class="services">
+        <li><span class="dot"></span>Pipe leaks &amp; burst pipe repairs</li>
+        <li><span class="dot"></span>Water &amp; drainage system installation</li>
+        <li><span class="dot"></span>Bathroom &amp; kitchen fitting</li>
+        <li><span class="dot"></span>Motor &amp; water pump servicing</li>
+        <li><span class="dot"></span>Overhead &amp; underground tank work</li>
+        <li><span class="dot"></span>24-hour emergency plumbing</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="btn-group">
+        <a class="btn btn-call" href="tel:+919645001700">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Now
+        </a>
+        <a class="btn btn-wa" href="https://wa.me/919645001700?text=Hi%2C%20I%20need%20a%20plumber." target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          WhatsApp
+        </a>
+        <button class="btn btn-share" onclick="openModal('plumb')">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Share Problem &amp; Location
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>📍 Kozhikode, Kerala &nbsp;·&nbsp; ☎ +91 96450 01700</p>
+    <p style="margin-top:6px;">© 2025 RAJESH Electrical and Plumbing. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<!-- Share Problem Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <h2 id="modalTitle">Describe Your Problem</h2>
+    <p id="modalSub">Write a short description. We'll attach your live location automatically.</p>
+
+    <textarea id="problemText" placeholder="e.g. Power tripped in my bedroom, no electricity since this morning…" maxlength="400"></textarea>
+
+    <div class="modal-loc">
+      <span class="loc-dot"></span>
+      <span id="locStatus">Fetching your location…</span>
+    </div>
+
+    <button class="btn-send" id="sendBtn" onclick="sendToWhatsApp()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      Send via WhatsApp
+    </button>
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+  let currentService = 'elec';
+  let userLat = null, userLng = null;
+
+  function openModal(type) {
+    currentService = type;
+    const overlay = document.getElementById('modalOverlay');
+    const modal   = document.getElementById('modal');
+    const title   = document.getElementById('modalTitle');
+    const sub     = document.getElementById('modalSub');
+
+    modal.className = 'modal ' + type;
+    title.textContent = type === 'elec' ? '⚡ Describe the Electrical Issue' : '🔧 Describe the Plumbing Issue';
+    sub.textContent   = 'Write a short description. Your live location will be attached automatically.';
+    document.getElementById('problemText').value = '';
+    document.getElementById('locStatus').textContent = 'Fetching your location…';
+
+    overlay.classList.add('open');
+    fetchLocation();
+    document.getElementById('problemText').focus();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function closeOnOverlay(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function fetchLocation() {
+    if (!navigator.geolocation) {
+      document.getElementById('locStatus').textContent = 'Location not available on this device.';
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        userLat = pos.coords.latitude.toFixed(6);
+        userLng = pos.coords.longitude.toFixed(6);
+        document.getElementById('locStatus').textContent = 'Location ready ✓ (' + userLat + ', ' + userLng + ')';
+      },
+      () => {
+        document.getElementById('locStatus').textContent = 'Location access denied — message will be sent without it.';
+      },
+      { timeout: 8000 }
+    );
+  }
+
+  function sendToWhatsApp() {
+    const problem = document.getElementById('problemText').value.trim();
+    if (!problem) {
+      document.getElementById('problemText').focus();
+      document.getElementById('problemText').style.borderColor = '#ff6b6b80';
+      setTimeout(() => document.getElementById('problemText').style.borderColor = '', 1500);
+      return;
+    }
+
+    const serviceLabel = currentService === 'elec' ? '⚡ Electrical Problem' : '🔧 Plumbing Problem';
+    let msg = serviceLabel + '\n\n' + problem;
+
+    if (userLat && userLng) {
+      msg += '\n\n📍 My Location:\nhttps://www.google.com/maps?q=' + userLat + ',' + userLng;
+    }
+
+    const encoded = encodeURIComponent(msg);
+    window.open('https://wa.me/919645001700?text=' + encoded, '_blank');
+    closeModal();
+  }
+
+  /* Subtle 3D card tilt on mouse move */
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const x  = (e.clientX - r.left) / r.width  - 0.5;
+      const y  = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform =
+        `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>
+</body>
+</html>
